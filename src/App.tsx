@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import './App.css';
+// On importe tous les composants de la page
+import HeaderCampagne from "./components/HeaderCampagne";
+import AlerteCodePin from "./components/AlerteCodePin";
+import ActionsCampagne from "./components/ActionsCampagne";
+import ChoixJeu from "./components/ChoixJeu";
+import PersonnalisationJeu from "./components/PersonnalisationJeu";
+import GainsCampagne from "./components/GainsCampagne";
+import ConditionsRecuperation from "./components/ConditionsRecuperation";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="ma-campagne-container">
+      {/* En-tête de la page */}
+      <HeaderCampagne />
+
+      {/* Alerte code PIN */}
+      <AlerteCodePin />
+
+      {/* Section pour organiser les actions */}
+      <ActionsCampagne />
+
+      {/* Section pour choisir le type de jeu */}
+      <ChoixJeu />
+
+      {/* Section pour personnaliser le jeu */}
+      <PersonnalisationJeu />
+
+      {/* Section pour ajouter et configurer les gains */}
+      <GainsCampagne />
+
+      {/* Section pour définir les conditions de récupération */}
+      <ConditionsRecuperation />
+    </div>
+  );
 }
 
-export default App
+export default App;
