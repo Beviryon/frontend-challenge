@@ -97,7 +97,7 @@ function GainsCampagne() {
       </Box>
 
       {/* Contenu de la section (masqué si accordéon fermé) */}
-      {sectionOuverte && (
+      {/* {sectionOuverte && ( */}
         <>
           {/* Section Jeu 100% Gagnant */}
           <Box sx={{ mb: 4 }}>
@@ -120,7 +120,7 @@ function GainsCampagne() {
                 }}
               />
             </Box>
-            <Typography variant="caption" sx={{ color: '#666', display: 'block', ml: 4 }}>
+            <Typography variant="body2" sx={{ color: '#666', display: 'block', ml: 4, mt: 1 }}>
               Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
               décochez, une case Perdu sera automatiquement ajoutée au jeu.
             </Typography>
@@ -326,7 +326,7 @@ function GainsCampagne() {
             </Button>
           </Box>
         </>
-      )}
+      {/* )} */}
     </Box>
   );
 }
