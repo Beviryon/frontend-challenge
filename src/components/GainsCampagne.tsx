@@ -1,12 +1,31 @@
-import React, { useState } from "react";
-import { Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Switch, IconButton, Select, MenuItem, FormControl } from "@mui/material";
+import React, { useState } from 'react';
+import {
+  Box,
+  Typography,
+  Button,
+  Switch,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Paper,
+  IconButton,
+  FormControl,
+  Select,
+  MenuItem
+} from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InfoIcon from '@mui/icons-material/Info';
-import CasinoIcon from '@mui/icons-material/Casino';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import RedeemIcon from '@mui/icons-material/Redeem';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 
 // Données JSON des gains comme mentionné dans le README
 const gainsData = [
@@ -27,7 +46,7 @@ const gainsData = [
     stock: 0,
     illimite: true,
     gainParDefaut: true,
-    dateLimite: "Jusqu'au 10 déc. 2024"
+    dateLimite: "Jusqu'au 10 déc. 2004"
   }
 ];
 
@@ -97,14 +116,14 @@ function GainsCampagne() {
       </Box>
 
       {/* Contenu de la section (masqué si accordéon fermé) */}
-      {/* {sectionOuverte && ( */}
+      {sectionOuverte && (
         <>
           {/* Section Jeu 100% Gagnant */}
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
               {/* Barre orange devant le titre */}
               <Box sx={{ width: 4, height: 20, bgcolor: '#FF9800', borderRadius: 2, mr: 2 }} />
-              <Typography variant="body1" fontWeight={600} sx={{ mr: 2 }}>
+              <Typography variant="h6" fontWeight={600} sx={{ mr: 2, color: '#000' }}>
                 Jeu 100% Gagnant
               </Typography>
               <Switch
@@ -120,7 +139,7 @@ function GainsCampagne() {
                 }}
               />
             </Box>
-            <Typography variant="body2" sx={{ color: '#666', display: 'block', ml: 4, mt: 1 }}>
+            <Typography variant="body1" sx={{ color: '#666', display: 'block', ml: 4, mt: 1, fontSize: '14px' }}>
               Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
               décochez, une case Perdu sera automatiquement ajoutée au jeu.
             </Typography>
@@ -129,17 +148,24 @@ function GainsCampagne() {
           {/* Boutons d'action */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 3 }}>
             <Button
-              variant="outlined"
-              startIcon={<CasinoIcon />}
+              variant="contained"
+              endIcon={<ConfirmationNumberIcon sx={{ color: 'white' }} />}
+              disabled
               sx={{
-                color: '#FF9800',
-                borderColor: '#FF9800',
+                background: '#FF9800 !important',
+                color: '#fff !important',
                 fontWeight: 600,
                 px: 3,
                 py: 1,
                 borderRadius: 2,
                 textTransform: 'none',
-                '&:hover': { borderColor: '#F57C00', backgroundColor: 'rgba(255, 152, 0, 0.04)' }
+                opacity: 0.7,
+                '&:hover': { background: '#F57C00 !important' },
+                '&.Mui-disabled': {
+                  background: '#FF9800 !important',
+                  color: '#fff !important',
+                  opacity: 0.7
+                }
               }}
             >
               Lancer le tirage au sort
@@ -165,64 +191,77 @@ function GainsCampagne() {
 
           {/* Tableau des gains */}
           <Box sx={{ position: 'relative' }}>
-            <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0' }}>
+            <TableContainer component={Paper} sx={{ 
+              boxShadow: 'none', 
+              border: '1px solid #e0e0e0',
+              borderRadius: 2,
+              overflow: 'hidden'
+            }}>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ background: '#f8f9fa' }}>
-                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F' }}>
+                  <TableRow>
+                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F', borderBottom: '2px solid #e0e0e0', borderRight: '1px solid #e0e0e0', width: '35%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         Nom du Gain
-                        <InfoIcon sx={{ fontSize: 14, color: '#666' }} />
+                        <InfoIcon sx={{ fontSize: 14, color: '#2A3B8F' }} />
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F' }}>
+                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F', borderBottom: '2px solid #e0e0e0', borderRight: '1px solid #e0e0e0', width: '40%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         Catégorie
-                        <InfoIcon sx={{ fontSize: 14, color: '#666' }} />
+                        <InfoIcon sx={{ fontSize: 14, color: '#2A3B8F' }} />
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F' }}>
+                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F', borderBottom: '2px solid #e0e0e0', width: '25%' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
                         Nombre de stock
-                        <InfoIcon sx={{ fontSize: 14, color: '#666' }} />
+                        <InfoIcon sx={{ fontSize: 14, color: '#2A3B8F' }} />
                       </Box>
                     </TableCell>
-                    <TableCell sx={{ fontWeight: 600, color: '#2A3B8F' }}>Illimité</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {gains.map((gain, index) => (
-                    <TableRow key={gain.id} sx={{ '&:hover': { background: '#f8f9fa' } }}>
-                      <TableCell>
+                    <TableRow key={gain.id} sx={{ 
+                      '&:hover': { background: '#f8f9fa' },
+                      borderBottom: '1px solid #e0e0e0'
+                    }}>
+                      <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          {/* Icône dans un carré bleu */}
+                          {/* Icône bleue */}
                           <Box sx={{
-                            width: 24,
-                            height: 24,
-                            borderRadius: '4px',
-                            background: '#2A3B8F',
+                            color: '#2A3B8F',
+                            fontSize: 20,
                             display: 'flex',
                             alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#fff',
-                            fontSize: 12,
-                            fontWeight: 'bold'
+                            justifyContent: 'center'
                           }}>
-                            {gain.nom === "Frite" ? "🍟" : gain.nom === "Sac Jacquemus" ? "👜" : "🎁"}
+                            {gain.nom === "Frite" ? (
+                              <RestaurantIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
+                            ) : gain.nom === "Sac Jacquemus" ? (
+                              <ShoppingBagIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
+                            ) : (
+                              <RedeemIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
+                            )}
                           </Box>
                           <Box>
-                            <Typography variant="body2" fontWeight={500}>
-                              {gain.nom}
-                            </Typography>
-                            {gain.gainParDefaut && (
-                              <Typography variant="caption" color="#666">
-                                Gain par défaut
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                              <Typography variant="body2" fontWeight={500}>
+                                {gain.nom}
                               </Typography>
-                            )}
+                              {gain.gainParDefaut && (
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                  <RedeemIcon sx={{ fontSize: 14, color: '#999' }} />
+                                  <Typography variant="caption" color="#999">
+                                    Gain par défaut
+                                  </Typography>
+                                </Box>
+                              )}
+                            </Box>
                           </Box>
                         </Box>
                       </TableCell>
-                      <TableCell>
+                      <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <FormControl size="small" sx={{ minWidth: 120 }}>
                             <Select
@@ -249,42 +288,67 @@ function GainsCampagne() {
                           </FormControl>
                           {gain.dateLimite && (
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
-                              <CalendarTodayIcon sx={{ fontSize: 14, color: '#666' }} />
-                              <Typography variant="caption" color="#666">
+                              <CalendarTodayIcon sx={{ fontSize: 14, color: '#999' }} />
+                              <Typography variant="caption" color="#999">
                                 {gain.dateLimite}
                               </Typography>
                             </Box>
                           )}
                         </Box>
                       </TableCell>
-                      <TableCell>
-                        {gain.illimite ? (
-                          <Typography variant="body2" color="#2A3B8F" fontWeight={500}>
-                            Illimité
-                          </Typography>
-                        ) : (
-                          <Typography variant="body2">
-                            {gain.stock}
-                          </Typography>
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Switch
-                          checked={gain.illimite}
-                          onChange={() => toggleIllimite(gain.id)}
-                          size="small"
-                          sx={{
-                            '& .MuiSwitch-switchBase.Mui-checked': {
-                              color: '#2A3B8F',
-                            },
-                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                              backgroundColor: '#2A3B8F',
-                            },
-                          }}
-                        />
+                      <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                          {gain.illimite ? (
+                            <Typography variant="body2" color="#999" fontWeight={500}>
+                              Illimité
+                            </Typography>
+                          ) : (
+                            <Typography variant="body2">
+                              {gain.stock}
+                            </Typography>
+                          )}
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                            <Typography variant="body2" color="#666">
+                              Illimité
+                            </Typography>
+                            <Switch
+                              checked={gain.illimite}
+                              onChange={() => toggleIllimite(gain.id)}
+                              size="small"
+                              sx={{
+                                '& .MuiSwitch-switchBase.Mui-checked': {
+                                  color: '#2A3B8F',
+                                },
+                                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                                  backgroundColor: '#2A3B8F',
+                                },
+                              }}
+                            />
+                          </Box>
+                        </Box>
                       </TableCell>
                     </TableRow>
                   ))}
+                  {/* Ligne pour ajouter un gain supplémentaire */}
+                  <TableRow>
+                    <TableCell colSpan={3} sx={{ border: 'none', pt: 2 }}>
+                      <Button
+                        variant="text"
+                        startIcon={<AddIcon sx={{ fontSize: 16 }} />}
+                        onClick={ajouterGain}
+                        sx={{
+                          color: '#2A3B8F',
+                          textTransform: 'none',
+                          fontSize: 14,
+                          pl: 0,
+                          minWidth: 'auto',
+                          '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }
+                        }}
+                      >
+                        Ajouter un {gains.length + 1 === 3 ? 'Troisième' : gains.length + 1 === 4 ? 'Quatrième' : `${gains.length + 1}e`} Gain
+                      </Button>
+                    </TableCell>
+                  </TableRow>
                 </TableBody>
               </Table>
             </TableContainer>
@@ -307,26 +371,8 @@ function GainsCampagne() {
               </IconButton>
             ))}
           </Box>
-
-          {/* Lien pour ajouter un gain supplémentaire */}
-          <Box sx={{ mt: 2, textAlign: 'left' }}>
-            <Button
-              variant="text"
-              startIcon={<AddIcon />}
-              onClick={ajouterGain}
-              sx={{
-                color: '#2A3B8F',
-                textTransform: 'none',
-                fontSize: 14,
-                pl: 0,
-                '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }
-              }}
-            >
-              Ajouter un {gains.length + 1 === 3 ? 'Troisième' : gains.length + 1 === 4 ? 'Quatrième' : `${gains.length + 1}e`} Gain
-            </Button>
-          </Box>
         </>
-      {/* )} */}
+      )}
     </Box>
   );
 }
