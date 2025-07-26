@@ -11,7 +11,15 @@ import ConditionsRecuperation from "./components/ConditionsRecuperation";
 
 function App() {
   return (
-    <div className="ma-campagne-container">
+    <div
+      className="ma-campagne-container"
+      style={{
+        padding: '32px 0',
+        minHeight: '100vh',
+        maxWidth: 1200,
+        margin: '0 auto',
+      }}
+    >
       {/* En-tête de la page */}
       <HeaderCampagne />
 
@@ -32,7 +40,7 @@ function App() {
 
       {/* Section pour définir les conditions de récupération */}
       <ConditionsRecuperation />
-    </div>
+      </div>
   );
 }
 
