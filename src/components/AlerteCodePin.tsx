@@ -1,5 +1,4 @@
-import React from "react";
-import { Alert, Button, Box, Typography, Stack } from "@mui/material";
+import { Button, Box, Typography } from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 
 // Composant pour afficher l'alerte du code PIN non configuré

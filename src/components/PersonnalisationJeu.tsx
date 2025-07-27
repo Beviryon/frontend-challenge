@@ -7,8 +7,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 // Composant pour personnaliser le jeu (logo, couleurs, aperçu)
 function PersonnalisationJeu() {
   // mettre BASIC pour désactiver la personnalisation
-  const profil: "PRO" | "BASIC" = "PRO";
-  const personnalisationDesactivee = profil === "BASIC";
+  const personnalisationDesactivee = false; // Désactivé pour l'instant
 
   // Etat pour la couleur 1 et 2
   const [couleur1, setCouleur1] = useState("#3F5EFB");

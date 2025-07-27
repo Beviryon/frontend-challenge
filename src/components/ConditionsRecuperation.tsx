@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {Box, Typography, Switch, TextField, Table,
   TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton
 } from '@mui/material';
@@ -7,48 +7,44 @@ import InfoIcon from '@mui/icons-material/Info';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import RestaurantIcon from '@mui/icons-material/Restaurant';
-import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
+import type { Conditions } from '../../doc/CampaignType';
 
-// Données d'exemple pour les conditions par gain
-const conditionsData = [
-  {
-    id: 1,
-    nom: "Frite",
-    condition: "Aucune",
-    icone: ""
-  },
-  {
-    id: 2,
-    nom: "Sac Jacquemus",
-    condition: "Achat minimum de 10€",
-    icone: ""
-  }
-];
+interface ConditionsRecuperationProps {
+  conditionsFieldArray: {
+    fields: Conditions[];
+    append: (condition: Conditions) => void;
+    remove: (index: number) => void;
+    update: (index: number, condition: Conditions) => void;
+  };
+}
 
 // Composant pour définir les conditions de récupération
-function ConditionsRecuperation() {
+function ConditionsRecuperation({ conditionsFieldArray }: ConditionsRecuperationProps) {
+  const { fields, remove, update } = conditionsFieldArray;
   const [sectionOuverte, setSectionOuverte] = useState(true);
   const [pasDeCondition, setPasDeCondition] = useState(false);
   const [conditionAchat, setConditionAchat] = useState(true);
   const [montantMinimum, setMontantMinimum] = useState("10€ d'achat minimum pour récupérer le gain");
-  const [conditions, setConditions] = useState(conditionsData);
 
   // Fonction pour ajouter une condition
-  const ajouterCondition = (id: number) => {
-    // Logique pour ajouter une condition
-    console.log('Ajouter condition pour gain:', id);
+  const ajouterCondition = (index: number) => {
+    const condition = fields[index];
+    const newCondition: Conditions = {
+      ...condition,
+      value: "Achat minimum de 5€"
+    };
+    update(index, newCondition);
   };
 
   // Fonction pour modifier une condition
-  const modifierCondition = (id: number) => {
+  const modifierCondition = (index: number) => {
     // Logique pour modifier une condition
-    console.log('Modifier condition pour gain:', id);
+    console.log('Modifier condition pour gain:', index);
   };
 
   // Fonction pour supprimer une condition
-  const supprimerCondition = (id: number) => {
-    setConditions(conditions.filter(condition => condition.id !== id));
+  const supprimerCondition = (index: number) => {
+    remove(index);
   };
 
   return (
@@ -124,8 +120,18 @@ function ConditionsRecuperation() {
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left', mb: 2 }}>
                   Exigez un montant minimum d'achat en boutique pour permettre la récupération du gain.
                 </Typography>
-                <TextField label="Montant à atteindre" value={montantMinimum} onChange={(e) => setMontantMinimum(e.target.value)} placeholder="Ex: 10€ d'achat minimum pour récupérer le gain" size="small"
-                  sx={{width: '100%', '& .MuiOutlinedInput-root': {borderRadius: 1, '& fieldset': {borderColor: '#e0e0e0'}},
+                <TextField 
+                  label="Montant à atteindre" 
+                  value={montantMinimum} 
+                  onChange={(e) => setMontantMinimum(e.target.value)} 
+                  placeholder="Ex: 10€ d'achat minimum pour récupérer le gain" 
+                  size="small"
+                  sx={{
+                    width: '100%', 
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: 1, 
+                      '& fieldset': {borderColor: '#e0e0e0'}
+                    },
                     '& .MuiInputBase-input': {
                       '&::placeholder': {color: 'gray', opacity: 0.5, fontStyle: 'italic'},
                     },
@@ -173,37 +179,42 @@ function ConditionsRecuperation() {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {conditions.map((condition) => (
+                    {fields.map((condition, index) => (
                       <TableRow key={condition.id} sx={{ 
                         '&:hover': { background: '#f8f9fa' },
                         borderBottom: '1px solid #e0e0e0'
                       }}>
                         <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-
-                            <Box sx={{color: '#2A3B8F', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                              {condition.nom === "Frite" ? (
-                                <RestaurantIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
-                              ) : (
-                                <ShoppingBagIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
-                              )}
+                            <Box sx={{ 
+                              width: 40, 
+                              height: 40, 
+                              backgroundColor: '#2A3B8F', 
+                              borderRadius: 1,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'white',
+                              fontSize: '20px'
+                            }}>
+                              🎁
                             </Box>
                             <Typography variant="body2" fontWeight={500}>
-                              {condition.nom}
+                              {condition.name}
                             </Typography>
                           </Box>
                         </TableCell>
                         <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
-                          <Typography variant="body2" color={condition.condition === "Aucune" ? "#999" : "#000"}>
-                            {condition.condition}
+                          <Typography variant="body2" color={condition.value === "Aucune" ? "#999" : "#000"}>
+                            {condition.value}
                           </Typography>
                         </TableCell>
                         <TableCell>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            {condition.condition === "Aucune" ? (
+                            {condition.value === "Aucune" ? (
                               <Button variant="text"
                                 startIcon={<AddIcon sx={{ fontSize: 16 }} />}
-                                onClick={() => ajouterCondition(condition.id)}
+                                onClick={() => ajouterCondition(index)}
                                 sx={{color: '#2A3B8F', textTransform: 'none', fontSize: 14, pl: 0, minWidth: 'auto', '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }}}>
                                 Ajouter une condition
                               </Button>
@@ -211,11 +222,11 @@ function ConditionsRecuperation() {
                               <>
                                 <Button variant="text"
                                   startIcon={<EditIcon sx={{ fontSize: 16 }} />}
-                                  onClick={() => modifierCondition(condition.id)}
+                                  onClick={() => modifierCondition(index)}
                                   sx={{color: '#2A3B8F', textTransform: 'none', fontSize: 14, pl: 0, minWidth: 'auto', '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }}}>
                                   Modifier
                                 </Button>
-                                <IconButton size="small" onClick={() => supprimerCondition(condition.id)} sx={{ color: '#666' }}>
+                                <IconButton size="small" onClick={() => supprimerCondition(index)} sx={{ color: '#666' }}>
                                   <DeleteIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
                               </>

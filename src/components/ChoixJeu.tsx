@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Typography, Card, CardActionArea, CardContent, IconButton } from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import wheel from "../assets/wheel.jpg";
@@ -13,8 +13,7 @@ function ChoixJeu() {
   const [sectionOuverte, setSectionOuverte] = useState(true);
 
   // On peut simuler un profil BASIC pour désactiver la sélection
-  const profil: "PRO" | "BASIC" = "PRO"; // mettre "BASIC" pour tester le cas désactivé
-  const selectionDesactivee = profil === "BASIC";
+  const selectionDesactivee = false; // Désactivé pour l'instant
 
   return (
     <Box sx={{ my: 4, p: 3, background: '#fff', borderRadius: 2, boxShadow: 1 }}>
