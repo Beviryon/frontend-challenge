@@ -89,18 +89,8 @@ function ActionsCampagne({ actionsFieldArray }: ActionsCampagneProps) {
         </Box>
         
         {/* Bouton Ajouter une action */}
-        <Button
-          variant="contained"
-          sx={{
-            background: '#2A3B8F',
-            color: '#fff',
-            fontWeight: 600,
-            px: 2,
-            py: 1,
-            borderRadius: 2,
-            textTransform: 'none',
-            '&:hover': { background: '#1a255c' }
-          }}
+        <Button variant="contained"
+          sx={{background: '#2A3B8F', color: '#fff', fontWeight: 600, px: 2, py: 1, borderRadius: 2, textTransform: 'none', '&:hover': { background: '#1a255c' }}}
           onClick={ajouterAction}
         >
           + Ajouter une action
@@ -130,16 +120,7 @@ function ActionsCampagne({ actionsFieldArray }: ActionsCampagneProps) {
 
       {/* Alertes dynamiques */}
       {actionsEnDouble.length > 0 && (
-        <Alert 
-          severity="error" 
-          icon={false}
-          sx={{ 
-            mt: 3, 
-            background: '#FFEBEE', 
-            border: '1px solid #F44336',
-            '& .MuiAlert-message': { color: '#C62828' }
-          }}
-        >
+        <Alert severity="error" icon={false} sx={{ mt: 3, background: '#FFEBEE', border: '1px solid #F44336', '& .MuiAlert-message': { color: '#C62828' }}}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Box sx={{ fontSize: 16 }}>🚨</Box>
             <Typography variant="body2">
@@ -151,16 +132,7 @@ function ActionsCampagne({ actionsFieldArray }: ActionsCampagneProps) {
       )}
 
       {/* Alerte d'information générale */}
-      <Alert 
-        severity="info" 
-        icon={false}
-        sx={{ 
-          mt: actionsEnDouble.length > 0 ? 2 : 3, 
-          background: '#E3F2FD', 
-          border: '1px solid #2196F3',
-          '& .MuiAlert-message': { color: '#1976D2' }
-        }}
-      >
+      <Alert severity="info" icon={false} sx={{ mt: actionsEnDouble.length > 0 ? 2 : 3, background: '#E3F2FD', border: '1px solid #2196F3', '& .MuiAlert-message': { color: '#1976D2' }}}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Box sx={{ fontSize: 16 }}>💡</Box>
           <Typography variant="body2">

@@ -4,9 +4,11 @@ import {Box, Typography, Button, Switch, TableContainer,
   Paper, IconButton
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import InfoIcon from '@mui/icons-material/Info';
 import { useFormContext } from 'react-hook-form';
 import type { Gift } from '../../doc/CampaignType';
 
@@ -91,10 +93,12 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
         </IconButton>
       </Box>
 
+
+
       {/* Contenu de la section (masqué si accordéon fermé) */}
-      {sectionOuverte && (
-        <>
-          {/* Section Jeu 100% Gagnant */}
+              {sectionOuverte && (
+          <>
+            {/* Section Jeu 100% Gagnant */}
           <Box sx={{ mb: 4 }}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
               {/* Barre orange devant le titre */}
@@ -118,14 +122,66 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
             </Box>
           </Box>
 
+          {/* Boutons d'action près du tableau */}
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', mb: 3, gap: 2 }}>
+            <Button
+              variant="contained"
+              endIcon={<ConfirmationNumberIcon />}
+              sx={{
+                background: '#FF9800',
+                color: '#fff',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 2,
+                textTransform: 'none',
+                '&:hover': { background: '#f57c00' }
+              }}
+            >
+              Lancer le tirage au sort
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              onClick={ajouterGain}
+              sx={{
+                background: '#2A3B8F',
+                color: '#fff',
+                fontWeight: 600,
+                px: 3,
+                py: 1,
+                borderRadius: 2,
+                textTransform: 'none',
+                '&:hover': { background: '#1a255c' }
+              }}
+            >
+              + Ajouter un gain +
+            </Button>
+          </Box>
+
           {/* Tableau des gains */}
           <TableContainer component={Paper} sx={{ mb: 3, boxShadow: 'none', border: '1px solid #e0e0e0' }}>
             <Table>
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
-                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>Gain</TableCell>
-                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>Catégorie</TableCell>
-                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>Stock</TableCell>
+                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <InfoIcon sx={{ color: '#2A3B8F', fontSize: 16 }} />
+                      Nom du Gain
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <InfoIcon sx={{ color: '#2A3B8F', fontSize: 16 }} />
+                      Catégorie
+                    </Box>
+                  </TableCell>
+                  <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <InfoIcon sx={{ color: '#2A3B8F', fontSize: 16 }} />
+                      Nombre de stock
+                    </Box>
+                  </TableCell>
                   <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>Illimité</TableCell>
                   <TableCell sx={{ fontWeight: 600, borderBottom: '2px solid #e0e0e0' }}>Actions</TableCell>
                 </TableRow>
@@ -152,63 +208,52 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
                           <Typography variant="body1" fontWeight={600}>
                             {gift.name}
                           </Typography>
-                          {gift.limit === -1 && (
-                            <Typography variant="caption" color="text.secondary">
-                              Gain par défaut
-                            </Typography>
-                          )}
+                          <Typography variant="caption" color="text.secondary">
+                            Gain par défaut
+                          </Typography>
                         </Box>
                       </Box>
                     </TableCell>
                     <TableCell sx={{ borderBottom: '1px solid #e0e0e0' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <ConfirmationNumberIcon sx={{ color: '#2A3B8F', fontSize: 20 }} />
-                        <Typography>{gift.type}</Typography>
+                        <Typography>{gift.type === 'EAT' ? 'Nourriture' : gift.type === 'DISCOUNT' ? 'Tirage au sort' : gift.type}</Typography>
+                        {gift.type === 'DISCOUNT' && (
+                          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, ml: 1 }}>
+                            <ConfirmationNumberIcon sx={{ color: '#2A3B8F', fontSize: 16 }} />
+                            <Typography variant="caption" color="text.secondary">Jusqu'au 10 déc. 2024</Typography>
+                          </Box>
+                        )}
+                        <KeyboardArrowDownIcon sx={{ color: '#2A3B8F', fontSize: 16 }} />
                       </Box>
                     </TableCell>
                     <TableCell sx={{ borderBottom: '1px solid #e0e0e0' }}>
-                      <Typography>{gift.limit === -1 ? 'Illimité' : gift.limit}</Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <Typography>{gift.limit === -1 ? 'Illimité' : gift.limit}</Typography>
+                        <Switch 
+                          checked={gift.limit === -1} 
+                          onChange={() => toggleIllimite(index)}
+                          sx={{
+                            '& .MuiSwitch-switchBase.Mui-checked': {color: '#2A3B8F'},
+                            '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#2A3B8F'}
+                          }}
+                        />
+                      </Box>
                     </TableCell>
                     <TableCell sx={{ borderBottom: '1px solid #e0e0e0' }}>
-                      <Switch 
-                        checked={gift.limit === -1} 
-                        onChange={() => toggleIllimite(index)}
+                      <Typography>{gift.limit === -1 ? 'Illimité' : 'Limité'}</Typography>
+                    </TableCell>
+                    <TableCell sx={{ borderBottom: '1px solid #e0e0e0' }}>
+                      <IconButton
+                        onClick={() => supprimerGain(index)}
                         sx={{
-                          '& .MuiSwitch-switchBase.Mui-checked': {color: '#2A3B8F'},
-                          '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#2A3B8F'}
+                          color: '#f44336',
+                          '&:hover': {
+                            backgroundColor: 'rgba(244, 67, 54, 0.04)'
+                          }
                         }}
-                      />
-                    </TableCell>
-                    <TableCell sx={{ borderBottom: '1px solid #e0e0e0' }}>
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-                        <Button
-                          variant="outlined"
-                          size="small"
-                          startIcon={<ConfirmationNumberIcon />}
-                          sx={{
-                            borderColor: '#2A3B8F',
-                            color: '#2A3B8F',
-                            textTransform: 'none',
-                            '&:hover': {
-                              borderColor: '#1a255c',
-                              backgroundColor: 'rgba(42, 59, 143, 0.04)'
-                            }
-                          }}
-                        >
-                          Lancer le tirage au sort
-                        </Button>
-                        <IconButton
-                          onClick={() => supprimerGain(index)}
-                          sx={{
-                            color: '#f44336',
-                            '&:hover': {
-                              backgroundColor: 'rgba(244, 67, 54, 0.04)'
-                            }
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </Box>
+                      >
+                        <DeleteIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -216,26 +261,7 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
             </Table>
           </TableContainer>
 
-          {/* Bouton Ajouter un gain */}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Button
-              variant="outlined"
-              startIcon={<AddIcon />}
-              onClick={ajouterGain}
-              sx={{
-                borderColor: '#2A3B8F',
-                color: '#2A3B8F',
-                textTransform: 'none',
-                fontWeight: 600,
-                '&:hover': {
-                  borderColor: '#1a255c',
-                  backgroundColor: 'rgba(42, 59, 143, 0.04)'
-                }
-              }}
-            >
-              Ajouter un gain
-            </Button>
-          </Box>
+
         </>
       )}
     </Box>

@@ -43,11 +43,7 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
         {/* Flèche accordéon */}
         <IconButton 
           onClick={() => setSectionOuverte(!sectionOuverte)}
-          sx={{ 
-            color: '#2A3B8F',
-            transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)',
-            transition: 'transform 0.3s'
-          }}
+          sx={{ color: '#2A3B8F', transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.3s' }}
         >
           <KeyboardArrowUpIcon />
         </IconButton>
@@ -73,21 +69,9 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
                 }
               }}
               sx={{ 
-                '& .MuiToggleButton-root': {
-                  textTransform: 'none',
-                  fontWeight: 600,
-                  px: 3,
-                  py: 1,
-                  border: '2px solid #e0e0e0',
-                  '&.Mui-selected': {
-                    background: '#2A3B8F',
-                    color: '#fff',
-                    borderColor: '#2A3B8F',
-                    '&:hover': { background: '#1a255c' }
-                  },
-                  '&:hover': {
-                    background: '#f5f5f5'
-                  }
+                '& .MuiToggleButton-root': {textTransform: 'none', fontWeight: 600, px: 3, py: 1, border: '2px solid #e0e0e0',
+                  '&.Mui-selected': {background: '#2A3B8F', color: '#fff', borderColor: '#2A3B8F', '&:hover': { background: '#1a255c' }},
+                  '&:hover': {background: '#f5f5f5'}
                 }
               }}
             >
@@ -117,10 +101,10 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
               opacity: selectionDesactivee ? 0.5 : 1,
               transition: 'border 0.2s',
               background: 'linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%)',
-              height: 280, // Taille uniforme
+              height: 280, 
               display: 'flex',
               flexDirection: 'column',
-              minWidth: 'calc(25% - 6px)', // 25% moins l'espacement
+              minWidth: 'calc(25% - 6px)', 
               flex: '1 1 0%'
             }}
           >
@@ -160,12 +144,10 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
             sx={{
               border: jeuSelectionne === "boites" ? '3px solid #2A3B8F' : '1px solid #e0e0e0',
               opacity: selectionDesactivee ? 0.5 : 1,
-              transition: 'border 0.2s',
-              background: 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%)',
-              height: 280, // Taille uniforme
+              transition: 'border 0.2s', background: 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%)', height: 280, 
               display: 'flex',
               flexDirection: 'column',
-              minWidth: 'calc(25% - 6px)', // 25% moins l'espacement
+              minWidth: 'calc(25% - 6px)', 
               flex: '1 1 0%'
             }}
           >
@@ -207,10 +189,10 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
               opacity: selectionDesactivee ? 0.5 : 1,
               transition: 'border 0.2s',
               background: 'linear-gradient(135deg, #F3E5F5 0%, #E1BEE7 100%)',
-              height: 280, // Taille uniforme
+              height: 280, 
               display: 'flex',
               flexDirection: 'column',
-              minWidth: 'calc(25% - 6px)', // 25% moins l'espacement
+              minWidth: 'calc(25% - 6px)', 
               flex: '1 1 0%'
             }}
           >
@@ -252,10 +234,10 @@ function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
               opacity: selectionDesactivee ? 0.5 : 1,
               transition: 'border 0.2s',
               background: 'linear-gradient(135deg, #E8F5E8 0%, #C8E6C9 100%)',
-              height: 280, // Taille uniforme
+              height: 280, 
               display: 'flex',
               flexDirection: 'column',
-              minWidth: 'calc(25% - 6px)', // 25% moins l'espacement
+              minWidth: 'calc(25% - 6px)', 
               flex: '1 1 0%'
             }}
           >
