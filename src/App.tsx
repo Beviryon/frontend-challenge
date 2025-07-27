@@ -14,9 +14,9 @@ function App() {
     <div
       className="ma-campagne-container"
       style={{
-        padding: '32px 0',
+        padding: '20px',
         minHeight: '100vh',
-        maxWidth: 1200,
+        maxWidth: '1200px',
         margin: '0 auto',
       }}
     >

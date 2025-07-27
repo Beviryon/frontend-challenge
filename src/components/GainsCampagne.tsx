@@ -120,29 +120,33 @@ function GainsCampagne() {
         <>
           {/* Section Jeu 100% Gagnant */}
           <Box sx={{ mb: 4 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
               {/* Barre orange devant le titre */}
               <Box sx={{ width: 4, height: 20, bgcolor: '#FF9800', borderRadius: 2, mr: 2 }} />
-              <Typography variant="h6" fontWeight={600} sx={{ mr: 2, color: '#000' }}>
-                Jeu 100% Gagnant
-              </Typography>
-              <Switch
-                checked={jeu100Gagnant}
-                onChange={(e) => setJeu100Gagnant(e.target.checked)}
-                sx={{
-                  '& .MuiSwitch-switchBase.Mui-checked': {
-                    color: '#2A3B8F',
-                  },
-                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                    backgroundColor: '#2A3B8F',
-                  },
-                }}
-              />
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                  <Typography variant="h6" fontWeight={600} sx={{ mr: 2, color: '#000' }}>
+                    Jeu 100% Gagnant
+                  </Typography>
+                  <Switch
+                    checked={jeu100Gagnant}
+                    onChange={(e) => setJeu100Gagnant(e.target.checked)}
+                    sx={{
+                      '& .MuiSwitch-switchBase.Mui-checked': {
+                        color: '#2A3B8F',
+                      },
+                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                        backgroundColor: '#2A3B8F',
+                      },
+                    }}
+                  />
+                </Box>
+                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left' }}>
+                  Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
+                  décochez, une case Perdu sera automatiquement ajoutée au jeu.
+                </Typography>
+              </Box>
             </Box>
-            <Typography variant="body1" sx={{ color: '#666', display: 'block', ml: 4, mt: 1, fontSize: '14px' }}>
-              Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
-              décochez, une case Perdu sera automatiquement ajoutée au jeu.
-            </Typography>
           </Box>
 
           {/* Boutons d'action */}
@@ -359,15 +363,9 @@ function GainsCampagne() {
                 key={`delete-${gain.id}`}
                 size="small" 
                 onClick={() => supprimerGain(gain.id)}
-                sx={{ 
-                  position: 'absolute',
-                  right: -50, // Plus à droite
-                  top: 56 + (index * 56), // 56px pour le header + 56px par ligne
-                  color: '#666',
-                  zIndex: 1
-                }}
+                sx={{ position: 'absolute', right: -25, top: 75 + (index * 56), color: '#666', zIndex: 1 }}
               >
-                <DeleteIcon sx={{ fontSize: 18 }} />
+                <DeleteIcon sx={{ fontSize: 20 }} />
               </IconButton>
             ))}
           </Box>
