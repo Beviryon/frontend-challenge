@@ -1,4 +1,5 @@
 import { useForm, useFieldArray } from 'react-hook-form';
+import { useEffect } from 'react';
 import type { Campaign, Gift, Conditions, GameType, Profile } from '../../doc/CampaignType';
 
 export const useCampaignForm = () => {
@@ -92,6 +93,70 @@ export const useCampaignForm = () => {
   const profile = watch('profile');
   const gifts = watch('configuration.gifts');
   const is100PercentWinning = watch('configuration.disabled') === false;
+
+  // Logique pour gérer la case "PERDU" automatiquement
+  useEffect(() => {
+    const currentGifts = giftsFieldArray.fields;
+    
+    if (!is100PercentWinning) {
+      // Si le jeu n'est pas 100% gagnant, ajouter une case "PERDU" si elle n'existe pas
+      const hasLossGift = currentGifts.some(gift => gift.type === 'LOSS');
+      
+      if (!hasLossGift) {
+        const lossGift: Gift = {
+          id: `loss-${Date.now()}`,
+          name: "Perdu",
+          icon: "❌",
+          type: "LOSS",
+          initial_limit: -1,
+          limit: -1
+        };
+        giftsFieldArray.append(lossGift);
+        
+        // Ajouter la condition correspondante
+        const lossCondition: Conditions = {
+          id: `loss-condition-${Date.now()}`,
+          name: "Perdu",
+          value: "Aucune"
+        };
+        conditionsFieldArray.append(lossCondition);
+      }
+    } else {
+      // Si le jeu est 100% gagnant, supprimer la case "PERDU"
+      const lossGiftIndex = currentGifts.findIndex(gift => gift.type === 'LOSS');
+      if (lossGiftIndex !== -1) {
+        giftsFieldArray.remove(lossGiftIndex);
+        
+        // Supprimer la condition correspondante
+        const lossConditionIndex = conditionsFieldArray.fields.findIndex(
+          condition => condition.name === "Perdu"
+        );
+        if (lossConditionIndex !== -1) {
+          conditionsFieldArray.remove(lossConditionIndex);
+        }
+      }
+    }
+  }, [is100PercentWinning, giftsFieldArray, conditionsFieldArray]);
+
+  // Validation : au moins un gain illimité en mode 100% gagnant
+  useEffect(() => {
+    if (is100PercentWinning) {
+      const hasUnlimitedGift = gifts.some(gift => gift.limit === -1 && gift.type !== 'LOSS');
+      
+      if (!hasUnlimitedGift && gifts.length > 0) {
+        // Si aucun gain n'est illimité, rendre le premier gain illimité
+        const firstGiftIndex = gifts.findIndex(gift => gift.type !== 'LOSS');
+        if (firstGiftIndex !== -1) {
+          const updatedGift: Gift = {
+            ...gifts[firstGiftIndex],
+            initial_limit: -1,
+            limit: -1
+          };
+          giftsFieldArray.update(firstGiftIndex, updatedGift);
+        }
+      }
+    }
+  }, [is100PercentWinning, gifts, giftsFieldArray]);
 
   // Fonctions utilitaires
   const addGift = () => {

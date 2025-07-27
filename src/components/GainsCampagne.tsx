@@ -7,6 +7,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
+import { useFormContext } from 'react-hook-form';
 import type { Gift } from '../../doc/CampaignType';
 
 interface GainsCampagneProps {
@@ -21,8 +22,11 @@ interface GainsCampagneProps {
 // Composant pour configurer les gains de la campagne
 function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
   const { fields, append, remove, update } = giftsFieldArray;
-  const [jeu100Gagnant, setJeu100Gagnant] = useState(false);
+  const { watch, setValue } = useFormContext();
   const [sectionOuverte, setSectionOuverte] = useState(true);
+  
+  // Surveiller la valeur du switch 100% gagnant
+  const is100PercentWinning = watch('configuration.disabled') === false;
 
   // Fonction pour ajouter un nouveau gain
   const ajouterGain = () => {
@@ -39,6 +43,12 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
 
   // Fonction pour supprimer un gain
   const supprimerGain = (index: number) => {
+    const gift = fields[index];
+    // Empêcher la suppression du gain "Perdu" (il est géré automatiquement)
+    if (gift.type === 'LOSS') {
+      alert('Le gain "Perdu" ne peut pas être supprimé manuellement. Il est géré automatiquement selon le mode de jeu.');
+      return;
+    }
     remove(index);
   };
 
@@ -94,7 +104,11 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
                   <Typography variant="h6" fontWeight={600} sx={{ mr: 2, color: '#000' }}>
                     Jeu 100% Gagnant
                   </Typography>
-                  <Switch checked={jeu100Gagnant} onChange={(e) => setJeu100Gagnant(e.target.checked)} sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#2A3B8F'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#2A3B8F'}}} />
+                  <Switch 
+                    checked={is100PercentWinning} 
+                    onChange={(e) => setValue('configuration.disabled', !e.target.checked)} 
+                    sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#2A3B8F'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#2A3B8F'}}} 
+                  />
                 </Box>
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left' }}>
                   Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
@@ -124,7 +138,7 @@ function GainsCampagne({ giftsFieldArray }: GainsCampagneProps) {
                         <Box sx={{ 
                           width: 40, 
                           height: 40, 
-                          backgroundColor: '#2A3B8F', 
+                          backgroundColor: gift.type === 'LOSS' ? '#f44336' : '#2A3B8F', 
                           borderRadius: 1,
                           display: 'flex',
                           alignItems: 'center',
