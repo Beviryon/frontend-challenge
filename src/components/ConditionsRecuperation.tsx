@@ -16,15 +16,26 @@ interface ConditionsRecuperationProps {
     remove: (index: number) => void;
     update: (index: number, condition: Conditions) => void;
   };
+  noConditions: boolean;
+  purchaseCondition: boolean;
+  minimumPurchaseAmount: string;
+  onNoConditionsChange: (value: boolean) => void;
+  onPurchaseConditionChange: (value: boolean) => void;
+  onMinimumPurchaseAmountChange: (value: string) => void;
 }
 
 // Composant pour définir les conditions de récupération
-function ConditionsRecuperation({ conditionsFieldArray }: ConditionsRecuperationProps) {
+function ConditionsRecuperation({ 
+  conditionsFieldArray, 
+  noConditions, 
+  purchaseCondition, 
+  minimumPurchaseAmount,
+  onNoConditionsChange,
+  onPurchaseConditionChange,
+  onMinimumPurchaseAmountChange
+}: ConditionsRecuperationProps) {
   const { fields, remove, update } = conditionsFieldArray;
   const [sectionOuverte, setSectionOuverte] = useState(true);
-  const [pasDeCondition, setPasDeCondition] = useState(false);
-  const [conditionAchat, setConditionAchat] = useState(true);
-  const [montantMinimum, setMontantMinimum] = useState("10€ d'achat minimum pour récupérer le gain");
 
   // Fonction pour ajouter une condition
   const ajouterCondition = (index: number) => {
@@ -89,8 +100,8 @@ function ConditionsRecuperation({ conditionsFieldArray }: ConditionsRecuperation
                     Pas de condition
                   </Typography>
                   <Switch
-                    checked={pasDeCondition}
-                    onChange={(e) => setPasDeCondition(e.target.checked)}
+                    checked={noConditions}
+                    onChange={(e) => onNoConditionsChange(e.target.checked)}
                     sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#666'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#666'}}}
                   />
                 </Box>
@@ -112,8 +123,8 @@ function ConditionsRecuperation({ conditionsFieldArray }: ConditionsRecuperation
                     Sous condition d'achat minimale
                   </Typography>
                   <Switch
-                    checked={conditionAchat}
-                    onChange={(e) => setConditionAchat(e.target.checked)}
+                    checked={purchaseCondition}
+                    onChange={(e) => onPurchaseConditionChange(e.target.checked)}
                     sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#FF9800'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#FF9800'}}}
                   />
                 </Box>
@@ -122,8 +133,8 @@ function ConditionsRecuperation({ conditionsFieldArray }: ConditionsRecuperation
                 </Typography>
                 <TextField 
                   label="Montant à atteindre" 
-                  value={montantMinimum} 
-                  onChange={(e) => setMontantMinimum(e.target.value)} 
+                  value={minimumPurchaseAmount} 
+                  onChange={(e) => onMinimumPurchaseAmountChange(e.target.value)} 
                   placeholder="Ex: 10€ d'achat minimum pour récupérer le gain" 
                   size="small"
                   sx={{

@@ -1,7 +1,7 @@
 
 import { Box, Typography, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert } from "@mui/material";
 import DraggableActions from "./DraggableActions";
-import type { Action } from "../../doc/CampaignType";
+import type { Action, ActionType } from "../../doc/CampaignType";
 
 interface ActionsCampagneProps {
   actionsFieldArray: {
@@ -16,13 +16,38 @@ interface ActionsCampagneProps {
 function ActionsCampagne({ actionsFieldArray }: ActionsCampagneProps) {
   const { fields, append } = actionsFieldArray;
 
+  // Fonction pour détecter les actions en double
+  const detecterDoublons = () => {
+    const types = fields.map(action => action.type);
+    const doublons = types.filter((type, index) => types.indexOf(type) !== index);
+    return [...new Set(doublons)]; // Retourne les types en double uniques
+  };
+
+  // Fonction pour convertir le type d'action en nom lisible
+  const getActionName = (type: string) => {
+    const actionNames: Record<string, string> = {
+      'GOOGLE_REVIEW': 'Avis Google',
+      'INSTAGRAM': 'Instagram',
+      'TIKTOK': 'TikTok',
+      'FACEBOOK': 'Facebook'
+    };
+    return actionNames[type] || type;
+  };
+
+  const actionsEnDouble = detecterDoublons();
+
   // Fonction pour ajouter une nouvelle action
   const ajouterAction = () => {
+    // Trouver le prochain type d'action disponible
+    const typesUtilises = fields.map(action => action.type);
+    const typesDisponibles: ActionType[] = ['GOOGLE_REVIEW', 'INSTAGRAM', 'TIKTOK', 'FACEBOOK'];
+    const prochainType = typesDisponibles.find(type => !typesUtilises.includes(type)) || 'GOOGLE_REVIEW';
+    
     const nouvelleAction: Action = {
       id: Date.now().toString(),
       priority: fields.length + 1,
       target: "Nouvelle action",
-      type: "GOOGLE_REVIEW"
+      type: prochainType
     };
     append(nouvelleAction);
   };
@@ -103,21 +128,43 @@ function ActionsCampagne({ actionsFieldArray }: ActionsCampagneProps) {
         </Table>
       </TableContainer>
 
-      {/* Alerte en bas */}
+      {/* Alertes dynamiques */}
+      {actionsEnDouble.length > 0 && (
+        <Alert 
+          severity="error" 
+          icon={false}
+          sx={{ 
+            mt: 3, 
+            background: '#FFEBEE', 
+            border: '1px solid #F44336',
+            '& .MuiAlert-message': { color: '#C62828' }
+          }}
+        >
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <Box sx={{ fontSize: 16 }}>🚨</Box>
+            <Typography variant="body2">
+              <strong>Attention :</strong> Vous avez des actions en double ({actionsEnDouble.map(getActionName).join(', ')}). 
+              Chaque type d'action ne doit apparaître qu'une seule fois pour éviter la confusion.
+            </Typography>
+          </Box>
+        </Alert>
+      )}
+
+      {/* Alerte d'information générale */}
       <Alert 
-        severity="warning" 
+        severity="info" 
         icon={false}
         sx={{ 
-          mt: 3, 
-          background: '#FFF8E1', 
-          border: '1px solid #FFECB3',
-          '& .MuiAlert-message': { color: '#000' }
+          mt: actionsEnDouble.length > 0 ? 2 : 3, 
+          background: '#E3F2FD', 
+          border: '1px solid #2196F3',
+          '& .MuiAlert-message': { color: '#1976D2' }
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Box sx={{ fontSize: 16 }}>⚠️</Box>
+          <Box sx={{ fontSize: 16 }}>💡</Box>
           <Typography variant="body2">
-            Une seule action = une seule participation : Vos clients ne peuvent jouer qu'une seule fois et vous ne proposez qu'une seule action.
+            <strong>Conseil :</strong> Une seule action = une seule participation. Vos clients ne peuvent jouer qu'une seule fois et vous ne proposez qu'une seule action.
           </Typography>
         </Box>
       </Alert>

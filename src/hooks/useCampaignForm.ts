@@ -4,11 +4,7 @@ import type { Campaign, Gift, Conditions, GameType, Profile } from '../../doc/Ca
 
 export const useCampaignForm = () => {
   const form = useForm<Campaign>({
-    defaultValues: {
-      id: '',
-      profile: 'PREMIUM' as Profile,
-      configuration: {
-        actions: [
+    defaultValues: {id: '', profile: 'PREMIUM' as Profile, configuration: {actions: [
           {
             id: '1',
             priority: 1,
@@ -28,22 +24,13 @@ export const useCampaignForm = () => {
         },
         disabled: false,
         game_type: 'WHEEL' as GameType,
+        noConditions: false,
+        purchaseCondition: true,
+        minimumPurchaseAmount: "10€ d'achat minimum pour récupérer le gain",
         gifts: [
+          {id: '1', icon: '', initial_limit: 50, limit: 50, name: 'Frite', type: 'EAT'},
           {
-            id: '1',
-            icon: '🍟',
-            initial_limit: 50,
-            limit: 50,
-            name: 'Frite',
-            type: 'EAT'
-          },
-          {
-            id: '2',
-            icon: '👜',
-            initial_limit: -1, // Illimité
-            limit: -1,
-            name: 'Sac Jacquemus',
-            type: 'DISCOUNT'
+            id: '2', icon: '', initial_limit: -1, limit: -1, name: 'Sac Jacquemus', type: 'DISCOUNT'
           }
         ],
         retrievalConditions: [
@@ -72,7 +59,7 @@ export const useCampaignForm = () => {
 
   const { control, watch, setValue, handleSubmit, formState: { errors } } = form;
 
-  // Field arrays pour les listes
+
   const actionsFieldArray = useFieldArray({
     control,
     name: 'configuration.actions'
@@ -93,6 +80,10 @@ export const useCampaignForm = () => {
   const profile = watch('profile');
   const gifts = watch('configuration.gifts');
   const is100PercentWinning = watch('configuration.disabled') === false;
+  
+  const noConditions = watch('configuration.noConditions') || false;
+  const purchaseCondition = watch('configuration.purchaseCondition') || false;
+  const minimumPurchaseAmount = watch('configuration.minimumPurchaseAmount') || "10€ d'achat minimum pour récupérer le gain";
 
   // Logique pour gérer la case "PERDU" automatiquement
   useEffect(() => {
@@ -147,11 +138,7 @@ export const useCampaignForm = () => {
         // Si aucun gain n'est illimité, rendre le premier gain illimité
         const firstGiftIndex = gifts.findIndex(gift => gift.type !== 'LOSS');
         if (firstGiftIndex !== -1) {
-          const updatedGift: Gift = {
-            ...gifts[firstGiftIndex],
-            initial_limit: -1,
-            limit: -1
-          };
+          const updatedGift: Gift = {...gifts[firstGiftIndex], initial_limit: -1, limit: -1};
           giftsFieldArray.update(firstGiftIndex, updatedGift);
         }
       }
@@ -162,7 +149,7 @@ export const useCampaignForm = () => {
   const addGift = () => {
     const newGift: Gift = {
       id: Date.now().toString(),
-      icon: '🎁',
+      icon: '',
       initial_limit: 1,
       limit: 1,
       name: 'Nouveau gain',
@@ -207,29 +194,32 @@ export const useCampaignForm = () => {
     }
   };
 
+  // Fonctions pour les conditions de récupération
+  const updateNoConditions = (value: boolean) => {
+    setValue('configuration.noConditions', value);
+  };
+
+  const updatePurchaseCondition = (value: boolean) => {
+    setValue('configuration.purchaseCondition', value);
+  };
+
+  const updateMinimumPurchaseAmount = (value: string) => {
+    setValue('configuration.minimumPurchaseAmount', value);
+  };
+
+  const updateProfile = (newProfile: Profile) => {
+    setValue('profile', newProfile);
+  };
+
   const onSubmit = (data: Campaign) => {
     console.log('Campaign data:', data);
     // Ici vous pouvez envoyer les données à votre API
     alert('Campagne sauvegardée avec succès !');
   };
 
-  return {
-    form,
-    control,
-    watch,
-    setValue,
-    handleSubmit,
-    errors,
-    actionsFieldArray,
-    giftsFieldArray,
-    conditionsFieldArray,
-    gameType,
-    profile,
-    gifts,
-    is100PercentWinning,
-    addGift,
-    removeGift,
-    updateGiftName,
-    onSubmit
+  return {form, control, watch, setValue, handleSubmit,
+    errors, actionsFieldArray, giftsFieldArray, conditionsFieldArray,
+    gameType, profile, gifts, is100PercentWinning, noConditions, purchaseCondition,
+    minimumPurchaseAmount, addGift,removeGift,updateGiftName,updateNoConditions,updatePurchaseCondition,updateMinimumPurchaseAmount,updateProfile,onSubmit
   };
 }; 

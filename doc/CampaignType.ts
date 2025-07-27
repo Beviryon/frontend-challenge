@@ -39,6 +39,9 @@ export interface Configuration {
   gifts: Gift[];
   retrievalConditions: Conditions[];
   logo_uri: string;
+  noConditions?: boolean;
+  purchaseCondition?: boolean;
+  minimumPurchaseAmount?: string;
 }
 
 

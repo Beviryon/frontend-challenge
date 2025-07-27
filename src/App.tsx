@@ -17,6 +17,14 @@ function App() {
     actionsFieldArray,
     giftsFieldArray,
     conditionsFieldArray,
+    noConditions,
+    purchaseCondition,
+    minimumPurchaseAmount,
+    profile,
+    updateNoConditions,
+    updatePurchaseCondition,
+    updateMinimumPurchaseAmount,
+    updateProfile,
     handleSubmit,
     onSubmit
   } = useCampaignForm();
@@ -44,16 +52,27 @@ function App() {
           <ActionsCampagne actionsFieldArray={actionsFieldArray} />
 
           {/* Section pour choisir le type de jeu */}
-          <ChoixJeu />
+          <ChoixJeu 
+            profile={profile}
+            onProfileChange={updateProfile}
+          />
 
           {/* Section pour personnaliser le jeu */}
-          <PersonnalisationJeu />
+          <PersonnalisationJeu profile={profile} />
 
           {/* Section pour ajouter et configurer les gains */}
           <GainsCampagne giftsFieldArray={giftsFieldArray} />
 
           {/* Section pour définir les conditions de récupération */}
-          <ConditionsRecuperation conditionsFieldArray={conditionsFieldArray} />
+          <ConditionsRecuperation 
+            conditionsFieldArray={conditionsFieldArray}
+            noConditions={noConditions}
+            purchaseCondition={purchaseCondition}
+            minimumPurchaseAmount={minimumPurchaseAmount}
+            onNoConditionsChange={updateNoConditions}
+            onPurchaseConditionChange={updatePurchaseCondition}
+            onMinimumPurchaseAmountChange={updateMinimumPurchaseAmount}
+          />
         </div>
       </form>
     </FormProvider>

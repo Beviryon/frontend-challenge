@@ -1,19 +1,25 @@
 import { useState } from "react";
-import { Box, Typography, Card, CardActionArea, CardContent, IconButton } from "@mui/material";
+import { Box, Typography, Card, CardActionArea, CardContent, IconButton, ToggleButton, ToggleButtonGroup, Alert } from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import wheel from "../assets/wheel.jpg";
 import mystery from "../assets/mystery.png";
 import slot from "../assets/slot.png";
 import card from "../assets/card.png";
+import type { Profile } from '../../doc/CampaignType';
+
+interface ChoixJeuProps {
+  profile: Profile;
+  onProfileChange: (profile: Profile) => void;
+}
 
 // Composant pour choisir le type de jeu
-function ChoixJeu() {
+function ChoixJeu({ profile, onProfileChange }: ChoixJeuProps) {
   // On sélectionne la roue de la fortune par défaut
   const [jeuSelectionne, setJeuSelectionne] = useState("roulette");
   const [sectionOuverte, setSectionOuverte] = useState(true);
 
-  // On peut simuler un profil BASIC pour désactiver la sélection
-  const selectionDesactivee = false; // Désactivé pour l'instant
+  // Désactiver la sélection si le profil est BASIC
+  const selectionDesactivee = profile === "BASIC";
 
   return (
     <Box sx={{ my: 4, p: 3, background: '#fff', borderRadius: 2, boxShadow: 1 }}>
@@ -49,7 +55,60 @@ function ChoixJeu() {
 
       {/* Contenu de la section (masqué si accordéon fermé) */}
       {sectionOuverte && (
-        <Box sx={{ display: 'flex', gap: 1, mt: 2, overflowX: 'auto' }}>
+        <>
+          {/* Sélecteur de profil */}
+          <Box sx={{ mb: 3 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+              <Box sx={{ width: 4, height: 20, bgcolor: '#2A3B8F', borderRadius: 2, mr: 2 }} />
+              <Typography variant="body2" sx={{ fontWeight: 500, color: '#000' }}>
+                Profil de campagne
+              </Typography>
+            </Box>
+            <ToggleButtonGroup
+              value={profile}
+              exclusive
+              onChange={(_, newProfile: Profile | null) => {
+                if (newProfile !== null) {
+                  onProfileChange(newProfile);
+                }
+              }}
+              sx={{ 
+                '& .MuiToggleButton-root': {
+                  textTransform: 'none',
+                  fontWeight: 600,
+                  px: 3,
+                  py: 1,
+                  border: '2px solid #e0e0e0',
+                  '&.Mui-selected': {
+                    background: '#2A3B8F',
+                    color: '#fff',
+                    borderColor: '#2A3B8F',
+                    '&:hover': { background: '#1a255c' }
+                  },
+                  '&:hover': {
+                    background: '#f5f5f5'
+                  }
+                }
+              }}
+            >
+              <ToggleButton value="PREMIUM">
+                PREMIUM
+              </ToggleButton>
+              <ToggleButton value="BASIC">
+                BASIC
+              </ToggleButton>
+            </ToggleButtonGroup>
+            
+            {profile === "BASIC" && (
+              <Alert severity="info" sx={{ mt: 2, background: '#E3F2FD', border: '1px solid #2196F3' }}>
+                <Typography variant="body2">
+                  <strong>Mode BASIC :</strong> Certaines fonctionnalités de personnalisation seront désactivées.
+                </Typography>
+              </Alert>
+            )}
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1, mt: 2, overflowX: 'auto' }}>
           {/* Roue de la Fortune - Sélectionnée */}
           <Card
             variant={jeuSelectionne === "roulette" ? "outlined" : undefined}
@@ -230,6 +289,7 @@ function ChoixJeu() {
             </CardActionArea>
           </Card>
         </Box>
+        </>
       )}
     </Box>
   );
