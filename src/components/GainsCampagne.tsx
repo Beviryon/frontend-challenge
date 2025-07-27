@@ -1,20 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Button,
-  Switch,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-  IconButton,
-  FormControl,
-  Select,
-  MenuItem
+import {Box, Typography, Button, Switch, TableContainer,
+  Table, TableHead, TableBody, TableRow, TableCell,
+  Paper, IconButton, FormControl, Select, MenuItem
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,7 +19,7 @@ const gainsData = [
   {
     id: 1,
     nom: "Frite",
-    icone: "🍟",
+    icone: "",
     categorie: "Nourriture",
     stock: 15,
     illimite: false,
@@ -41,7 +28,7 @@ const gainsData = [
   {
     id: 2,
     nom: "Sac Jacquemus",
-    icone: "👜",
+    icone: "",
     categorie: "Tirage au sort",
     stock: 0,
     illimite: true,
@@ -61,7 +48,7 @@ function GainsCampagne() {
     const nouveauGain = {
       id: Date.now(),
       nom: "Nouveau gain",
-      icone: "🎁",
+      icone: "",
       categorie: "Nourriture",
       stock: 1,
       illimite: false,
@@ -105,12 +92,7 @@ function GainsCampagne() {
         {/* Flèche accordéon */}
         <IconButton
           onClick={() => setSectionOuverte(!sectionOuverte)}
-          sx={{
-            color: '#2A3B8F',
-            transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)',
-            transition: 'transform 0.3s'
-          }}
-        >
+          sx={{color: '#2A3B8F', transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.3s'}}>
           <KeyboardArrowUpIcon />
         </IconButton>
       </Box>
@@ -128,18 +110,7 @@ function GainsCampagne() {
                   <Typography variant="h6" fontWeight={600} sx={{ mr: 2, color: '#000' }}>
                     Jeu 100% Gagnant
                   </Typography>
-                  <Switch
-                    checked={jeu100Gagnant}
-                    onChange={(e) => setJeu100Gagnant(e.target.checked)}
-                    sx={{
-                      '& .MuiSwitch-switchBase.Mui-checked': {
-                        color: '#2A3B8F',
-                      },
-                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                        backgroundColor: '#2A3B8F',
-                      },
-                    }}
-                  />
+                  <Switch checked={jeu100Gagnant} onChange={(e) => setJeu100Gagnant(e.target.checked)} sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#2A3B8F'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#2A3B8F'}}} />
                 </Box>
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left' }}>
                   Cochez cette option pour garantir un gain à chaque joueur. Si vous la<br />
@@ -151,56 +122,23 @@ function GainsCampagne() {
 
           {/* Boutons d'action */}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2, mb: 3 }}>
-            <Button
-              variant="contained"
-              endIcon={<ConfirmationNumberIcon sx={{ color: 'white' }} />}
-              disabled
-              sx={{
-                background: '#FF9800 !important',
-                color: '#fff !important',
-                fontWeight: 600,
-                px: 3,
-                py: 1,
-                borderRadius: 2,
-                textTransform: 'none',
-                opacity: 0.7,
+            <Button variant="contained" endIcon={<ConfirmationNumberIcon sx={{ color: 'white' }} />} disabled
+              sx={{background: '#FF9800 !important', color: '#fff !important', fontWeight: 600, px: 3, py: 1,borderRadius: 2, textTransform: 'none', opacity: 0.7,
                 '&:hover': { background: '#F57C00 !important' },
-                '&.Mui-disabled': {
-                  background: '#FF9800 !important',
-                  color: '#fff !important',
-                  opacity: 0.7
+                '&.Mui-disabled': {background: '#FF9800 !important', color: '#fff !important', opacity: 0.7
                 }
               }}
             >
               Lancer le tirage au sort
             </Button>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={ajouterGain}
-              sx={{
-                background: '#2A3B8F',
-                color: '#fff',
-                fontWeight: 600,
-                px: 3,
-                py: 1,
-                borderRadius: 2,
-                textTransform: 'none',
-                '&:hover': { background: '#1a255c' }
-              }}
-            >
-              Ajouter un gain +
-            </Button>
+            <Button variant="contained" startIcon={<AddIcon />} onClick={ajouterGain}
+              sx={{background: '#2A3B8F', color: '#fff', fontWeight: 600, px: 3, py: 1, borderRadius: 2, textTransform: 'none', '&:hover': { background: '#1a255c' }}}>
+              Ajouter un gain + </Button>
           </Box>
 
           {/* Tableau des gains */}
           <Box sx={{ position: 'relative' }}>
-            <TableContainer component={Paper} sx={{ 
-              boxShadow: 'none', 
-              border: '1px solid #e0e0e0',
-              borderRadius: 2,
-              overflow: 'hidden'
-            }}>
+            <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0', borderRadius: 2, overflow: 'hidden' }}>
               <Table>
                 <TableHead>
                   <TableRow>
@@ -225,7 +163,7 @@ function GainsCampagne() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {gains.map((gain, index) => (
+                  {gains.map((gain) => (
                     <TableRow key={gain.id} sx={{ 
                       '&:hover': { background: '#f8f9fa' },
                       borderBottom: '1px solid #e0e0e0'
@@ -233,13 +171,7 @@ function GainsCampagne() {
                       <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           {/* Icône bleue */}
-                          <Box sx={{
-                            color: '#2A3B8F',
-                            fontSize: 20,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                          }}>
+                          <Box sx={{color: '#2A3B8F', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                             {gain.nom === "Frite" ? (
                               <RestaurantIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
                             ) : gain.nom === "Sac Jacquemus" ? (
@@ -268,16 +200,9 @@ function GainsCampagne() {
                       <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                           <FormControl size="small" sx={{ minWidth: 120 }}>
-                            <Select
-                              value={gain.categorie}
-                              displayEmpty
-                              IconComponent={KeyboardArrowDownIcon}
+                            <Select value={gain.categorie} displayEmpty IconComponent={KeyboardArrowDownIcon}
                               sx={{
-                                '& .MuiSelect-select': { 
-                                  py: 0.5,
-                                  px: 1,
-                                  fontSize: '14px'
-                                },
+                                '& .MuiSelect-select': { py: 0.5, px: 1, fontSize: '14px' },
                                 '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                 '&:hover .MuiOutlinedInput-notchedOutline': { border: 'none' },
                                 '&.Mui-focused .MuiOutlinedInput-notchedOutline': { border: 'none' },
@@ -315,19 +240,7 @@ function GainsCampagne() {
                             <Typography variant="body2" color="#666">
                               Illimité
                             </Typography>
-                            <Switch
-                              checked={gain.illimite}
-                              onChange={() => toggleIllimite(gain.id)}
-                              size="small"
-                              sx={{
-                                '& .MuiSwitch-switchBase.Mui-checked': {
-                                  color: '#2A3B8F',
-                                },
-                                '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                                  backgroundColor: '#2A3B8F',
-                                },
-                              }}
-                            />
+                            <Switch checked={gain.illimite} onChange={() => toggleIllimite(gain.id)} size="small" />
                           </Box>
                         </Box>
                       </TableCell>
@@ -336,19 +249,8 @@ function GainsCampagne() {
                   {/* Ligne pour ajouter un gain supplémentaire */}
                   <TableRow>
                     <TableCell colSpan={3} sx={{ border: 'none', pt: 2 }}>
-                      <Button
-                        variant="text"
-                        startIcon={<AddIcon sx={{ fontSize: 16 }} />}
-                        onClick={ajouterGain}
-                        sx={{
-                          color: '#2A3B8F',
-                          textTransform: 'none',
-                          fontSize: 14,
-                          pl: 0,
-                          minWidth: 'auto',
-                          '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }
-                        }}
-                      >
+                      <Button variant="text" startIcon={<AddIcon sx={{ fontSize: 16 }} />}onClick={ajouterGain}
+                        sx={{color: '#2A3B8F', textTransform: 'none', fontSize: 14, pl: 0, minWidth: 'auto', '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }}}>
                         Ajouter un {gains.length + 1 === 3 ? 'Troisième' : gains.length + 1 === 4 ? 'Quatrième' : `${gains.length + 1}e`} Gain
                       </Button>
                     </TableCell>

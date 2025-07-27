@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Switch,
-  TextField,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  IconButton
+import {Box, Typography, Switch, TextField, Table,
+  TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton
 } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import InfoIcon from '@mui/icons-material/Info';
@@ -28,13 +16,13 @@ const conditionsData = [
     id: 1,
     nom: "Frite",
     condition: "Aucune",
-    icone: "🍟"
+    icone: ""
   },
   {
     id: 2,
     nom: "Sac Jacquemus",
     condition: "Achat minimum de 10€",
-    icone: "👜"
+    icone: ""
   }
 ];
 
@@ -86,12 +74,7 @@ function ConditionsRecuperation() {
         {/* Flèche accordéon */}
         <IconButton
           onClick={() => setSectionOuverte(!sectionOuverte)}
-          sx={{
-            color: '#2A3B8F',
-            transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)',
-            transition: 'transform 0.3s'
-          }}
-        >
+          sx={{color: '#2A3B8F', transform: sectionOuverte ? 'rotate(0deg)' : 'rotate(180deg)', transition: 'transform 0.3s'}}>
           <KeyboardArrowUpIcon />
         </IconButton>
       </Box>
@@ -104,7 +87,7 @@ function ConditionsRecuperation() {
             <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
               {/* Barre grise devant le titre */}
               <Box sx={{ width: 4, height: 20, bgcolor: '#ccc', borderRadius: 2, mr: 2 }} />
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '400px' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', mb: 1 }}>
                   <Typography variant="h6" fontWeight={600} sx={{ color: '#000' }}>
                     Pas de condition
@@ -112,14 +95,7 @@ function ConditionsRecuperation() {
                   <Switch
                     checked={pasDeCondition}
                     onChange={(e) => setPasDeCondition(e.target.checked)}
-                    sx={{
-                      '& .MuiSwitch-switchBase.Mui-checked': {
-                        color: '#666',
-                      },
-                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                        backgroundColor: '#666',
-                      },
-                    }}
+                    sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#666'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#666'}}}
                   />
                 </Box>
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left' }}>
@@ -134,7 +110,7 @@ function ConditionsRecuperation() {
             <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>
               {/* Barre orange devant le titre */}
               <Box sx={{ width: 4, height: 20, bgcolor: '#FF9800', borderRadius: 2, mr: 2 }} />
-              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', flex: 1 }}>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', width: '400px' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', mb: 1 }}>
                   <Typography variant="h6" fontWeight={600} sx={{ color: '#000' }}>
                     Sous condition d'achat minimale
@@ -142,32 +118,16 @@ function ConditionsRecuperation() {
                   <Switch
                     checked={conditionAchat}
                     onChange={(e) => setConditionAchat(e.target.checked)}
-                    sx={{
-                      '& .MuiSwitch-switchBase.Mui-checked': {
-                        color: '#FF9800',
-                      },
-                      '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                        backgroundColor: '#FF9800',
-                      },
-                    }}
+                    sx={{'& .MuiSwitch-switchBase.Mui-checked': {color: '#FF9800'}, '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {backgroundColor: '#FF9800'}}}
                   />
                 </Box>
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left', mb: 2 }}>
                   Exigez un montant minimum d'achat en boutique pour permettre la récupération du gain.
                 </Typography>
-                <TextField
-                  label="Montant à atteindre"
-                  value={montantMinimum}
-                  onChange={(e) => setMontantMinimum(e.target.value)}
-                  placeholder="Ex: 10€ d'achat minimum pour récupérer le gain"
-                  size="small"
-                  sx={{
-                    width: '100%',
-                    '& .MuiOutlinedInput-root': {
-                      borderRadius: 1,
-                      '& fieldset': {
-                        borderColor: '#e0e0e0',
-                      },
+                <TextField label="Montant à atteindre" value={montantMinimum} onChange={(e) => setMontantMinimum(e.target.value)} placeholder="Ex: 10€ d'achat minimum pour récupérer le gain" size="small"
+                  sx={{width: '100%', '& .MuiOutlinedInput-root': {borderRadius: 1, '& fieldset': {borderColor: '#e0e0e0'}},
+                    '& .MuiInputBase-input': {
+                      '&::placeholder': {color: 'gray', opacity: 0.5, fontStyle: 'italic'},
                     },
                   }}
                 />
@@ -177,21 +137,18 @@ function ConditionsRecuperation() {
 
           {/* Section "Conditions personnalisées par gain" */}
           <Box sx={{ mb: 4 }}>
-            <Typography variant="h6" fontWeight={600} sx={{ color: '#000', mb: 1 }}>
-              Conditions personnalisées par gain
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left', mb: 3 }}>
-              Vous pouvez définir une condition spécifique sur un ou plusieurs gains.
-            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', mb: 2 }}>
+              <Typography variant="h6" fontWeight={600} sx={{ color: '#000', mb: 1 }}>
+                Conditions personnalisées par gain
+              </Typography>
+              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, textAlign: 'left' }}>
+                Vous pouvez définir une condition spécifique sur un ou plusieurs gains.
+              </Typography>
+            </Box>
 
             {/* Tableau des conditions */}
             <Box sx={{ position: 'relative' }}>
-              <TableContainer component={Paper} sx={{ 
-                boxShadow: 'none', 
-                border: '1px solid #e0e0e0',
-                borderRadius: 2,
-                overflow: 'hidden'
-              }}>
+              <TableContainer component={Paper} sx={{ boxShadow: 'none', border: '1px solid #e0e0e0', borderRadius: 2, overflow: 'hidden' }}>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -223,14 +180,8 @@ function ConditionsRecuperation() {
                       }}>
                         <TableCell sx={{ borderRight: '1px solid #e0e0e0' }}>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                            {/* Icône bleue */}
-                            <Box sx={{
-                              color: '#2A3B8F',
-                              fontSize: 20,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center'
-                            }}>
+
+                            <Box sx={{color: '#2A3B8F', fontSize: 20, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                               {condition.nom === "Frite" ? (
                                 <RestaurantIcon sx={{ fontSize: 20, color: '#2A3B8F' }} />
                               ) : (
@@ -250,43 +201,21 @@ function ConditionsRecuperation() {
                         <TableCell>
                           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                             {condition.condition === "Aucune" ? (
-                              <Button
-                                variant="text"
+                              <Button variant="text"
                                 startIcon={<AddIcon sx={{ fontSize: 16 }} />}
                                 onClick={() => ajouterCondition(condition.id)}
-                                sx={{
-                                  color: '#2A3B8F',
-                                  textTransform: 'none',
-                                  fontSize: 14,
-                                  pl: 0,
-                                  minWidth: 'auto',
-                                  '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }
-                                }}
-                              >
+                                sx={{color: '#2A3B8F', textTransform: 'none', fontSize: 14, pl: 0, minWidth: 'auto', '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }}}>
                                 Ajouter une condition
                               </Button>
                             ) : (
                               <>
-                                <Button
-                                  variant="text"
+                                <Button variant="text"
                                   startIcon={<EditIcon sx={{ fontSize: 16 }} />}
                                   onClick={() => modifierCondition(condition.id)}
-                                  sx={{
-                                    color: '#2A3B8F',
-                                    textTransform: 'none',
-                                    fontSize: 14,
-                                    pl: 0,
-                                    minWidth: 'auto',
-                                    '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }
-                                  }}
-                                >
+                                  sx={{color: '#2A3B8F', textTransform: 'none', fontSize: 14, pl: 0, minWidth: 'auto', '&:hover': { background: 'rgba(42, 59, 143, 0.04)' }}}>
                                   Modifier
                                 </Button>
-                                <IconButton
-                                  size="small"
-                                  onClick={() => supprimerCondition(condition.id)}
-                                  sx={{ color: '#666' }}
-                                >
+                                <IconButton size="small" onClick={() => supprimerCondition(condition.id)} sx={{ color: '#666' }}>
                                   <DeleteIcon sx={{ fontSize: 18 }} />
                                 </IconButton>
                               </>
